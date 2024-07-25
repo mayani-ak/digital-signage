@@ -18,20 +18,24 @@
 <script>
 import axios from 'axios';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'
 
 export default {
 setup() {
     const email = ref('');
     const password = ref('');
-
+    const router = useRouter()
+    
     const login = () => {
     axios.post('http://localhost:8080/login', {
         email: email.value,
         password: password.value,
     }).then(response => {
         alert('Login successful!');
-        this.$router.push('/content');
-        console.log(JSON.stringify(response));
+        if (response && response.data) {
+            localStorage.setItem("authToken", response.data.token);
+        }
+        router.push('/content');
     }).catch(error => {
         alert('Error during login: ' + error);
     });

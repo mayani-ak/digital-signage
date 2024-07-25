@@ -18,12 +18,13 @@
   <script>
   import axios from 'axios';
   import { ref } from 'vue';
+  import { useRouter } from 'vue-router'
 
   export default {
     setup() {
       const email = ref('');
       const password = ref('');
-
+      const router = useRouter();
       const register = () => {
         axios.post('http://localhost:8080/signup', {
           username: "Archana",
@@ -31,7 +32,7 @@
           password: password.value,
         }).then(response => {
           alert('Registration successful!');
-          this.$router.push('/login');
+          router.push('/login');
           console.log(JSON.stringify(response));
           //document.cookie = "yummy_cookie=choco";
         }).catch(error => {
