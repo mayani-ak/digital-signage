@@ -2,11 +2,15 @@
     <div>
         <h2>Content</h2>
         <div v-if="content">
-            <p>{{ content }}</p> 
+            <pre>{{ content }}</pre> 
             <!-- Ideally, response data needs to be parsed and assign to various DOM elements in order to display the formatted content -->
         </div>
         <div v-else>
             <p>"To err is human; to blame it on the software is even more human!"</p>
+        </div>
+        <div>
+            <button @click="refreshContent">Refresh</button>
+            <button @click="loadHomePage"> Home </button>
         </div>
 
     </div>
@@ -15,8 +19,21 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 const content = ref(null);
+const router = useRouter();
+
+function loadHomePage(event) {
+    router.push('/');
+}
+function refreshContent(event) {
+    alert(`Hello!`)
+  // `event` is the native DOM event
+  if (event) {
+    alert(event.target.tagName)
+  }
+}
 
 onMounted(() => {
     axios.get('http://localhost:8080/restricted/content', {
